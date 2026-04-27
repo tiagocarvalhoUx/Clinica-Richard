@@ -1,4 +1,4 @@
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, getDocs, query, where } from 'firebase/firestore';
 import { COLECOES, db } from './firebase';
 import { fromSnap } from './converters';
 import type { HorarioDisponivel } from '@/types';
@@ -10,14 +10,14 @@ export async function listarHorariosDoMedico(
   const filtros = [where('medico_id', '==', medicoId), where('disponivel', '==', true)];
   if (dataYYYYMMDD) filtros.push(where('data', '==', dataYYYYMMDD));
 
-  const q = query(
-    collection(db, COLECOES.horariosDisponiveis),
-    ...filtros,
-    orderBy('data', 'asc'),
-    orderBy('hora_inicio', 'asc'),
-  );
+  const q = query(collection(db, COLECOES.horariosDisponiveis), ...filtros);
   const snap = await getDocs(q);
-  return snap.docs.map((d) => fromSnap<HorarioDisponivel>(d));
+  return snap.docs
+    .map((d) => fromSnap<HorarioDisponivel>(d))
+    .sort(
+      (a, b) =>
+        a.data.localeCompare(b.data) || a.hora_inicio.localeCompare(b.hora_inicio),
+    );
 }
 
 export async function listarDatasComHorariosDoMedico(medicoId: string): Promise<string[]> {

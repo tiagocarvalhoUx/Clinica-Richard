@@ -16,6 +16,7 @@ import {
   listarAgendamentosDoPaciente,
   ouvirAgendamentosDoPaciente,
 } from '@/services/agendamentos.service';
+import { mensagemErroFirebase } from '@/services/firebase';
 
 type Etapa = 'especialidade' | 'medico' | 'horario' | 'confirmacao' | 'sucesso';
 
@@ -56,7 +57,7 @@ export const useAgendamentoStore = defineStore('agendamento', () => {
     try {
       especialidades.value = await listarEspecialidades();
     } catch (e) {
-      erro.value = 'Não foi possível carregar as especialidades.';
+      erro.value = mensagemErroFirebase(e);
       console.error(e);
     } finally {
       carregando.value = false;
@@ -75,7 +76,7 @@ export const useAgendamentoStore = defineStore('agendamento', () => {
     try {
       medicos.value = await listarMedicosPorEspecialidade(esp.id);
     } catch (e) {
-      erro.value = 'Não foi possível carregar os médicos.';
+      erro.value = mensagemErroFirebase(e);
       console.error(e);
     } finally {
       carregando.value = false;
@@ -92,7 +93,7 @@ export const useAgendamentoStore = defineStore('agendamento', () => {
     try {
       horarios.value = await listarHorariosDoMedico(med.id);
     } catch (e) {
-      erro.value = 'Não foi possível carregar os horários.';
+      erro.value = mensagemErroFirebase(e);
       console.error(e);
     } finally {
       carregando.value = false;
@@ -144,7 +145,7 @@ export const useAgendamentoStore = defineStore('agendamento', () => {
       etapa.value = 'sucesso';
       return ag;
     } catch (e) {
-      erro.value = 'Não foi possível confirmar o agendamento. Tente novamente.';
+      erro.value = mensagemErroFirebase(e);
       throw e;
     } finally {
       carregando.value = false;

@@ -1,16 +1,12 @@
-import { collection, doc, getDoc, getDocs, orderBy, query, where } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
 import { COLECOES, db } from './firebase';
 import { fromSnap } from './converters';
 import type { Especialidade, Medico, MedicoComEspecialidade } from '@/types';
 
 export async function listarMedicos(): Promise<Medico[]> {
-  const q = query(
-    collection(db, COLECOES.medicos),
-    where('ativo', '==', true),
-    orderBy('nome', 'asc'),
-  );
+  const q = query(collection(db, COLECOES.medicos), where('ativo', '==', true));
   const snap = await getDocs(q);
-  return snap.docs.map((d) => fromSnap<Medico>(d));
+  return snap.docs.map((d) => fromSnap<Medico>(d)).sort((a, b) => a.nome.localeCompare(b.nome));
 }
 
 export async function listarMedicosPorEspecialidade(
@@ -20,10 +16,9 @@ export async function listarMedicosPorEspecialidade(
     collection(db, COLECOES.medicos),
     where('ativo', '==', true),
     where('especialidade_id', '==', especialidadeId),
-    orderBy('nome', 'asc'),
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => fromSnap<Medico>(d));
+  return snap.docs.map((d) => fromSnap<Medico>(d)).sort((a, b) => a.nome.localeCompare(b.nome));
 }
 
 export async function listarMedicosComEspecialidade(): Promise<MedicoComEspecialidade[]> {

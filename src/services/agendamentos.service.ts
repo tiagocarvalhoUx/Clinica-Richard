@@ -4,7 +4,6 @@ import {
   getDoc,
   getDocs,
   onSnapshot,
-  orderBy,
   query,
   serverTimestamp,
   setDoc,
@@ -89,10 +88,11 @@ export async function listarAgendamentosDoPaciente(
   const q = query(
     collection(db, COLECOES.agendamentos),
     where('paciente_id', '==', pacienteId),
-    orderBy('data_hora', 'desc'),
   );
   const snap = await getDocs(q);
-  const agendamentos = snap.docs.map((d) => fromSnap<Agendamento>(d));
+  const agendamentos = snap.docs
+    .map((d) => fromSnap<Agendamento>(d))
+    .sort((a, b) => Date.parse(b.data_hora) - Date.parse(a.data_hora));
 
   const [medicos, especialidades] = await Promise.all([listarMedicos(), listarEspecialidades()]);
   const mapaMedicos = new Map<string, Medico>(medicos.map((m) => [m.id, m]));
@@ -113,11 +113,15 @@ export function ouvirAgendamentosDoPaciente(
   const q = query(
     collection(db, COLECOES.agendamentos),
     where('paciente_id', '==', pacienteId),
-    orderBy('data_hora', 'desc'),
   );
   return onSnapshot(
     q,
-    (snap) => callback(snap.docs.map((d) => fromSnap<Agendamento>(d))),
+    (snap) =>
+      callback(
+        snap.docs
+          .map((d) => fromSnap<Agendamento>(d))
+          .sort((a, b) => Date.parse(b.data_hora) - Date.parse(a.data_hora)),
+      ),
     (err) => onErro?.(err as Error),
   );
 }
@@ -129,7 +133,6 @@ export async function listarConsultasConcluidasSemAvaliacao(
     collection(db, COLECOES.agendamentos),
     where('paciente_id', '==', pacienteId),
     where('status', '==', 'concluido'),
-    orderBy('data_hora', 'desc'),
   );
   const [snapAg, avSnap] = await Promise.all([
     getDocs(q),
@@ -143,7 +146,8 @@ export async function listarConsultasConcluidasSemAvaliacao(
 
   const agendamentos = snapAg.docs
     .map((d) => fromSnap<Agendamento>(d))
-    .filter((a) => !idsAvaliados.has(a.id));
+    .filter((a) => !idsAvaliados.has(a.id))
+    .sort((a, b) => Date.parse(b.data_hora) - Date.parse(a.data_hora));
 
   const [medicos, especialidades] = await Promise.all([listarMedicos(), listarEspecialidades()]);
   const mapaMedicos = new Map<string, Medico>(medicos.map((m) => [m.id, m]));

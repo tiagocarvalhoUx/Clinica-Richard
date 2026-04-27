@@ -59,6 +59,8 @@ export function mensagemErroFirebase(erro: unknown): string {
     'auth/user-disabled': 'Sua conta foi desativada. Entre em contato com a clínica.',
     'auth/expired-action-code': 'O link expirou. Solicite um novo acesso.',
     'auth/invalid-action-code': 'Link inválido ou já utilizado. Solicite um novo.',
+    'auth/configuration-not-found':
+      'Login por e-mail ainda não configurado. Ative o provedor E-mail/Senha no Firebase Authentication.',
     'auth/network-request-failed': 'Sem conexão. Verifique sua internet e tente novamente.',
     'auth/too-many-requests': 'Muitas tentativas. Aguarde alguns minutos e tente de novo.',
     'permission-denied': 'Você não tem permissão para esta operação.',

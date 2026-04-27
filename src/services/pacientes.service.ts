@@ -10,7 +10,8 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { COLECOES, db } from './firebase';
+import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
+import { COLECOES, db, storage } from './firebase';
 import { fromSnap } from './converters';
 import type { Paciente } from '@/types';
 
@@ -61,4 +62,12 @@ export async function atualizarPaciente(
 ): Promise<void> {
   const ref = doc(db, COLECOES.pacientes, pacienteId);
   await updateDoc(ref, { ...dados, updated_at: serverTimestamp() });
+}
+
+export async function uploadFotoPaciente(userId: string, arquivo: File): Promise<string> {
+  const extensao = arquivo.name.split('.').pop()?.toLowerCase() || 'jpg';
+  const caminho = `pacientes/${userId}/avatar-${Date.now()}.${extensao}`;
+  const refStorage = storageRef(storage, caminho);
+  await uploadBytes(refStorage, arquivo, { contentType: arquivo.type || 'image/jpeg' });
+  return getDownloadURL(refStorage);
 }

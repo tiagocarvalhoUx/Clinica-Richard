@@ -20,4 +20,8 @@ withDefaults(
       src="/image/logo-Dr.Richard.png"
       alt="Clínica Dr. Richard"
       class="absolute left-1/2 top-1/2 w-[calc(100%-0.75rem)] max-w-none -translate-x-1/2 -translate-y-1/2"
-      decoding="a
+      decoding="async"
+      fetchpriority="high"
+    />
+  </span>
+</template>

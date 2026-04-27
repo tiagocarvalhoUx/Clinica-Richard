@@ -1,0 +1,1 @@
+function u(){const e="5518981573968";function r(n){const o=`https://wa.me/${e.replace(/\D/g,"")}`;return n?`${o}?text=${encodeURIComponent(n)}`:o}function t(n){window.open(r(n),"_blank","noopener,noreferrer")}return{numero:e,gerarLink:r,abrir:t}}export{u};

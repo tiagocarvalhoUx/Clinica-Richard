@@ -1,0 +1,180 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', ui-sans-serif, system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-light text-dark;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: 'Playfair Display', ui-serif, Georgia, serif;
+    @apply text-dark;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-primary-500 ring-offset-2 ring-offset-white;
+  }
+
+  ::selection {
+    @apply bg-primary-100 text-primary-900;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #F1F5F9;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 6px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #94A3B8;
+  }
+}
+
+@layer components {
+  /* ----------- Tipografia clínica ----------- */
+  .titulo-hero {
+    @apply font-heading text-4xl sm:text-5xl lg:text-6xl font-semibold leading-tight tracking-tight text-dark;
+  }
+  .titulo-secao {
+    @apply font-heading text-3xl sm:text-4xl font-semibold tracking-tight text-dark;
+  }
+  .subtitulo {
+    @apply text-base sm:text-lg text-slate-600 leading-relaxed;
+  }
+  .eyebrow {
+    @apply inline-flex items-center gap-2 text-xs font-semibold tracking-[0.18em] uppercase text-primary-600;
+  }
+
+  /* ----------- Container ----------- */
+  .container-clinica {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* ----------- Botões ----------- */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 text-sm font-semibold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+  .btn-primary {
+    @apply btn bg-primary-500 text-white shadow-card hover:bg-primary-600 hover:shadow-elevated active:scale-[0.98];
+  }
+  .btn-secondary {
+    @apply btn bg-secondary-500 text-white shadow-card hover:bg-secondary-600 hover:shadow-elevated active:scale-[0.98];
+  }
+  .btn-outline {
+    @apply btn border border-primary-500 text-primary-600 hover:bg-primary-50 active:scale-[0.98];
+  }
+  .btn-ghost {
+    @apply btn text-dark hover:bg-slate-100 active:scale-[0.98];
+  }
+  .btn-danger {
+    @apply btn bg-danger-500 text-white hover:bg-danger-600 active:scale-[0.98];
+  }
+  .btn-lg {
+    @apply px-7 py-4 text-base;
+  }
+  .btn-sm {
+    @apply px-3 py-2 text-xs;
+  }
+
+  /* ----------- Inputs ----------- */
+  .campo {
+    @apply block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-dark placeholder-slate-400 transition focus:border-primary-400 focus:ring-2 focus:ring-primary-100;
+  }
+  .campo-erro {
+    @apply border-danger-500 focus:border-danger-500 focus:ring-danger-100;
+  }
+  .rotulo {
+    @apply block text-sm font-medium text-dark mb-2;
+  }
+  .mensagem-erro {
+    @apply mt-1.5 text-xs text-danger-600 flex items-center gap-1;
+  }
+  .mensagem-ajuda {
+    @apply mt-1.5 text-xs text-slate-500;
+  }
+
+  /* ----------- Cartões ----------- */
+  .cartao {
+    @apply bg-white rounded-2xl shadow-card border border-slate-100;
+  }
+  .cartao-hover {
+    @apply cartao transition-all duration-300 hover:shadow-elevated hover:-translate-y-1;
+  }
+
+  /* ----------- Badges (status) ----------- */
+  .badge {
+    @apply inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold;
+  }
+  .badge-primary {
+    @apply badge bg-primary-100 text-primary-700;
+  }
+  .badge-secondary {
+    @apply badge bg-secondary-100 text-secondary-700;
+  }
+  .badge-warning {
+    @apply badge bg-amber-100 text-amber-700;
+  }
+  .badge-danger {
+    @apply badge bg-danger-100 text-danger-700;
+  }
+  .badge-neutral {
+    @apply badge bg-slate-100 text-slate-700;
+  }
+
+  /* ----------- Skeleton ----------- */
+  .skeleton {
+    background: linear-gradient(
+      90deg,
+      rgba(226, 232, 240, 0.6) 0%,
+      rgba(226, 232, 240, 1) 50%,
+      rgba(226, 232, 240, 0.6) 100%
+    );
+    background-size: 1000px 100%;
+    @apply animate-shimmer rounded-md;
+  }
+
+  /* ----------- Glass ----------- */
+  .glass {
+    @apply backdrop-blur-md bg-white/70 border border-white/30;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .grid-pattern {
+    background-image: radial-gradient(rgba(26, 107, 138, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+  .mask-fade-b {
+    mask-image: linear-gradient(to bottom, black 60%, transparent);
+  }
+}
+
+/* Page transition (router-view fade) */
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}

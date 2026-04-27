@@ -32,7 +32,7 @@ import CtaAgendamento from '@/components/sections/CtaAgendamento.vue';
         <img
           src="/image/depoimentos-pacientes.png"
           alt="Paciente em conversa acolhedora com profissional odontológico"
-          class="aspect-[16/10] w-full rounded-[1.5rem] object-cover"
+          class="aspect-[16/9] w-full rounded-[1.5rem] bg-slate-50 object-contain"
           loading="eager"
         />
       </div>

@@ -123,11 +123,11 @@ onMounted(async () => {
       <div
         class="mb-8 grid overflow-hidden rounded-[2rem] bg-white shadow-card ring-1 ring-slate-100 lg:grid-cols-[0.9fr_1.1fr]"
       >
-        <div class="relative min-h-[280px] bg-primary-50">
+        <div class="relative min-h-[280px] bg-primary-50 lg:min-h-full">
           <img
             src="/image/depoimentos-pacientes.png"
             alt="Paciente conversando com profissional em ambiente odontológico acolhedor"
-            class="h-full w-full object-cover"
+            class="h-full w-full object-cover object-[68%_50%]"
             loading="lazy"
           />
         </div>

@@ -10,8 +10,7 @@ import {
   updateDoc,
   where,
 } from 'firebase/firestore';
-import { getDownloadURL, ref as storageRef, uploadBytes } from 'firebase/storage';
-import { COLECOES, db, storage } from './firebase';
+import { COLECOES, db } from './firebase';
 import { fromSnap } from './converters';
 import type { Paciente } from '@/types';
 
@@ -65,9 +64,43 @@ export async function atualizarPaciente(
 }
 
 export async function uploadFotoPaciente(userId: string, arquivo: File): Promise<string> {
-  const extensao = arquivo.name.split('.').pop()?.toLowerCase() || 'jpg';
-  const caminho = `pacientes/${userId}/avatar-${Date.now()}.${extensao}`;
-  const refStorage = storageRef(storage, caminho);
-  await uploadBytes(refStorage, arquivo, { contentType: arquivo.type || 'image/jpeg' });
-  return getDownloadURL(refStorage);
+  void userId;
+  return redimensionarImagemParaDataUrl(arquivo);
+}
+
+function carregarImagem(arquivo: File): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const url = URL.createObjectURL(arquivo);
+    const imagem = new Image();
+
+    imagem.onload = () => {
+      URL.revokeObjectURL(url);
+      resolve(imagem);
+    };
+    imagem.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error('Não foi possível ler a imagem selecionada.'));
+    };
+    imagem.src = url;
+  });
+}
+
+async function redimensionarImagemParaDataUrl(arquivo: File): Promise<string> {
+  const imagem = await carregarImagem(arquivo);
+  const limite = 512;
+  const escala = Math.min(1, limite / Math.max(imagem.naturalWidth, imagem.naturalHeight));
+  const largura = Math.max(1, Math.round(imagem.naturalWidth * escala));
+  const altura = Math.max(1, Math.round(imagem.naturalHeight * escala));
+
+  const canvas = document.createElement('canvas');
+  canvas.width = largura;
+  canvas.height = altura;
+
+  const contexto = canvas.getContext('2d');
+  if (!contexto) {
+    throw new Error('Não foi possível preparar a imagem.');
+  }
+
+  contexto.drawImage(imagem, 0, 0, largura, altura);
+  return canvas.toDataURL('image/jpeg', 0.82);
 }

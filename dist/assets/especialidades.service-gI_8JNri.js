@@ -1,1 +1,0 @@
-import{M as o,L as r,z as t,N as c,O as i,C as n,A as E}from"./index-B7g5mgfR.js";async function p(){const s=o(t(E,n.especialidades),r("ativo","==",!0));return(await c(s)).docs.map(a=>i(a)).sort((a,e)=>(a.ordem??Number.MAX_SAFE_INTEGER)-(e.ordem??Number.MAX_SAFE_INTEGER))}export{p as l};

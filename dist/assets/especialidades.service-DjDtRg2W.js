@@ -1,0 +1,1 @@
+import{M as o,L as r,A as t,N as c,O as i,C as n,B as E}from"./index-CMQSQ766.js";async function p(){const s=o(t(E,n.especialidades),r("ativo","==",!0));return(await c(s)).docs.map(a=>i(a)).sort((a,e)=>(a.ordem??Number.MAX_SAFE_INTEGER)-(e.ordem??Number.MAX_SAFE_INTEGER))}export{p as l};

@@ -1,0 +1,1 @@
+import{d as a,o as l,c as t,Z as n,n as r}from"./index-CMQSQ766.js";const u=a({__name:"AppSkeleton",props:{altura:{default:"1rem"},largura:{default:"100%"},redondo:{type:Boolean,default:!1}},setup(e){return(o,d)=>(l(),t("div",{class:r(["skeleton",{"rounded-full":e.redondo}]),style:n({height:e.altura,width:e.largura}),"aria-hidden":"true"},null,6))}});export{u as _};
